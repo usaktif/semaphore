@@ -1,0 +1,52 @@
+#
+# General flags
+
+.SUFFIXES: .o .h .c
+
+ENVIRON = LiNUX
+MAKEFIL = Makefile.$(ENVIRON)
+CC = gcc
+OFLAGS = 
+CFLAGS = -g $(OFLAGS)
+
+MAKEFLAGS = -w
+
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $*.c
+
+ZIPFILE = semafor
+
+#
+# Object files
+
+OBJSEMOS = semos.o
+
+# Target
+
+GOAL = $(MAKEFIL) \
+	semctl semget semop \
+	shmctl shmget shmop \
+	semos shmos upos
+
+all: $(GOAL)
+
+$(MAKEFIL): Makefile
+		cp -f Makefile $(MAKEFIL)
+
+#
+# From objs to execs
+
+
+#
+# Compress them!
+zip:
+		zip -f $(ZIPFILE).zip
+
+#
+# Clean Up section
+wipe:
+		rm -f *.o $(GOAL) core
+
+clean:
+		rm -f *.o
+

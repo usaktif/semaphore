@@ -1,0 +1,77 @@
+#
+# Makefile untuk tugas mata kuliah
+# Sistem Operasi (IKI20230)
+# Anung Barlianto/1292000058
+#
+
+## Files involved
+SEMAPHORE	= semos
+SHARE		= shmos
+NEXT		=
+
+## System Settings
+# In slamet.cs.ui.ac.id, there is no gcc.
+# Use cc instead.
+CC 		= gcc
+GCCFLAGS 	=
+#CFLAGS 		= -DAIX
+CFLAGS 		=
+
+## Compile/Link Flags
+INCLUDE	=
+LDFLAGS	=
+LDLIBS  =
+
+## Targets
+all:		sem semsample shm shmsample
+
+sem:		$(SEMAPHORE)x
+
+$(SEMAPHORE)x:	$(SEMAPHORE).o
+		$(CC) -o $(SEMAPHORE)x $(SEMAPHORE).o
+
+shm:		$(SHARE)x
+
+$(SHARE)x:	$(SHARE).o
+		$(CC) -o $(SHARE)x $(SHARE).o
+
+semsample:	semgetx semctlx semopx
+
+semgetx:	semget.o
+		$(CC) -o semgetx semget.o
+
+semctlx:	semctl.o
+		$(CC) -o semctlx semctl.o
+
+semopx:		semop.o
+		$(CC) -o semopx semop.o
+
+shmsample:	shmgetx shmctlx shmopx
+
+shmgetx:	shmget.o
+		$(CC) -o shmgetx shmget.o
+
+shmctlx:	shmctl.o
+		$(CC) -o shmctlx shmctl.o
+
+shmopx:		shmop.o
+		$(CC) -o shmopx shmop.o
+
+#
+# dependency list
+#
+$(SEMAPHORE).o:	$(SEMAPHORE).c $(SEMAPHORE).h
+semget.o:	semget.c
+semctl.o:	semctl.c
+semop.o:	semop.c
+$(SHARE).o:	$(SHARE).c $(SHARE).h
+shmget.o:	shmget.c
+shmctl.o:	shmctl.c
+shmop.o:	shmop.c
+
+clean:
+	rm -f *x core *.o
+
+cleano:
+	rm -f core *.o
+
