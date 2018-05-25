@@ -1,3 +1,20 @@
+# Output from Makefile
+consumer
+monitorshm
+producer
+semctl
+semget
+semop
+semos
+semstat
+semtool
+shmctl
+shmget
+shmop
+shmos
+upos
+wakemutex
+
 # Prerequisites
 *.d
 
