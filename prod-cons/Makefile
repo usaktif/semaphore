@@ -1,0 +1,99 @@
+#
+# General flags
+
+.SUFFIXES: .o .h .c
+
+ENVIRON = linux
+MAKEFIL = Makefile.$(ENVIRON)
+CC = gcc
+OFLAGS = -DLINUX
+CFLAGS = -g $(OFLAGS)
+
+MAKEFLAGS = -w
+
+# producer.h: common.h
+# consumer.h: common.h
+%.o: %.c %.h
+	$(CC) $(CFLAGS) -c $*.c
+
+#
+# Object files
+
+OBJPROD = producer.o common.o
+OBJCONS = consumer.o common.o
+OBJMONSHM = monitorshm.o common.o
+#OBJPRODSWAP = prodswap.o common.o
+#OBJCONSSWAP = consswap.o common.o
+#OBJMUTEX = wakemutex.o common.o
+
+# Target
+
+#SEMCODE = semctl semget semop
+#SHMCODE = shmctl shmget shmop
+#ASSIGNMENT = semos shmos upos
+DEMOCODE = producer consumer monitorshm
+#DEMOSWAP = prodswap consswap
+#SEMAUX = semstat semtool
+#WAKEMUTEX = wakemutex
+
+#GOAL = $(MAKEFIL) \
+	$(SEMCODE) \
+	$(SHMCODE) \
+	$(ASSIGNMENT) \
+	$(DEMOCODE) \
+	$(SEMAUX) \
+	$(WAKEMUTEX)
+
+GOAL = $(MAKEFIL) \
+	$(DEMOCODE)
+
+all: $(GOAL)
+#all: $(MAKEFIL) \
+  $(DEMOCODE) \
+  $(DEMOSWAP) \
+  $(ASSIGNMENT)
+
+$(MAKEFIL): Makefile
+	cp -f Makefile $(MAKEFIL)
+
+#
+# From objs to execs
+producer: $(OBJPROD)
+	$(CC) $(CFLAGS) $(OBJPROD) -o producer
+
+consumer: $(OBJCONS)
+	$(CC) $(CFLAGS) $(OBJCONS) -o consumer
+
+monitorshm: $(OBJMONSHM)
+	$(CC) $(CFLAGS) $(OBJMONSHM) -o monitorshm
+
+semos: semos.o
+	$(CC) $(CFLAGS) semos.o -o semos
+
+shmos: shmos.o
+	$(CC) $(CFLAGS) shmos.o -o shmos
+
+prodswap: $(OBJPRODSWAP)
+	$(CC) $(CFLAGS) $(OBJPRODSWAP) -o prodswap
+
+consswap: $(OBJCONSSWAP)
+	$(CC) $(CFLAGS) $(OBJCONSSWAP) -o consswap
+
+wakemutex: $(OBJMUTEX)
+	$(CC) $(CFLAGS) $(OBJMUTEX) -o wakemutex
+
+#
+# Compress them!
+zip:
+	zip -f $(ZIPFILE).zip
+
+#
+# Clean Up section
+wipe:
+	rm -f *.o $(GOAL) core
+
+clean:
+	rm -f *.o
+
+ZIPFILE = semafor
+
