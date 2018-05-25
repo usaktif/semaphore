@@ -6,7 +6,7 @@
 ENVIRON = linux
 MAKEFIL = Makefile.$(ENVIRON)
 CC = gcc
-OFLAGS = -DLINUX
+OFLAGS = -DLINUX -DDEMO
 CFLAGS = -g $(OFLAGS)
 
 MAKEFLAGS = -w
